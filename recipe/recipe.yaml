@@ -1,0 +1,45 @@
+schema_version: 1
+
+context:
+  name: basisgen
+  version: "1.0.4"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/basisgen-${{ version }}.tar.gz
+  sha256: f6040405276ca0e87441174de146af18242c7650ac8b54eb4895ef1c012b0be2
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+
+tests:
+  - python:
+      imports:
+        - basisgen
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Package for the generation of operator bases
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/jccriado/basisgen
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
